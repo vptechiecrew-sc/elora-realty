@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { COMPANY, generalLink } from '../config.js';
+import { COMPANY, generalLink, TEL, MAIL, MAP } from '../config.js';
+import { AREA_LIST } from '../data/areas.js';
 
 export function Logo() {
   return (
@@ -81,25 +82,39 @@ export function QuickActions() {
     on(); window.addEventListener('scroll', on, { passive: true });
     return () => window.removeEventListener('scroll', on);
   }, []);
-  const tel = COMPANY.phone.replace(/[^+\d]/g, '');
   return (
     <div className={`quick ${show ? 'show' : ''}`}>
       <a className="quick-wa" href={generalLink} target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp"><Wa /><span>WhatsApp</span></a>
-      <a className="quick-call" href={`tel:${tel}`} aria-label="Call us"><Phone /><span>Call</span></a>
+      <a className="quick-call" href={TEL} aria-label="Call us"><Phone /><span>Call</span></a>
     </div>
   );
 }
+
+const Mail = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
+);
+const Pin = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z" /><circle cx="12" cy="10" r="2.5" /></svg>
+);
 
 export function Footer() {
   return (
     <footer className="footer">
       <div className="wrap foot-grid">
-        <div className="foot-brand"><Logo /><p>Land and property enquiries across Kanyakumari district. Serving families and investors since 2026.</p></div>
-        <div><h4>Explore</h4>{links.map(([to, l]) => <Link key={to} to={to}>{l}</Link>)}</div>
-        <div><h4>Contact</h4><span>{COMPANY.phone}</span><span>{COMPANY.email}</span><span>{COMPANY.address}</span>
-          <a href={generalLink} target="_blank" rel="noreferrer">WhatsApp us</a></div>
+        <div className="foot-brand">
+          <Logo />
+          <p>Land and property enquiries in Nagercoil and Chennai. Serving families and investors since 2026.</p>
+          <a className="btn btn-red btn-sm" href={generalLink} target="_blank" rel="noreferrer">Chat on WhatsApp</a>
+        </div>
+        <nav className="foot-col" aria-label="Footer"><h4>Explore</h4>{links.map(([to, l]) => <Link key={to} to={to}>{l}</Link>)}</nav>
+        <div className="foot-col"><h4>Areas</h4>{AREA_LIST.map((a) => <Link key={a.slug} to={`/land-in-${a.slug}`}>Land in {a.name}</Link>)}</div>
+        <div className="foot-col foot-contact"><h4>Contact</h4>
+          <a className="fc" href={TEL}><Phone /><span>{COMPANY.phone}</span></a>
+          <a className="fc" href={MAIL}><Mail /><span>{COMPANY.email}</span></a>
+          <a className="fc" href={MAP} target="_blank" rel="noreferrer"><Pin /><span>{COMPANY.address}</span></a>
+        </div>
       </div>
-      <div className="wrap foot-base"><span>© {new Date().getFullYear()} {COMPANY.name}. All rights reserved.</span><span>Since 2026 · Kanyakumari</span></div>
+      <div className="wrap foot-base"><span>© {new Date().getFullYear()} {COMPANY.name}. All rights reserved.</span><span>Since 2026 · Nagercoil | Chennai</span></div>
     </footer>
   );
 }

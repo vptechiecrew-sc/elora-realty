@@ -4,8 +4,8 @@ const PALETTE = {
   'Commercial land': ['#EBD9D3', '#D9D2CB', '#A69C94'], House: ['#F7D2CF', '#CFE0BF', '#B91F2D'],
   Apartment: ['#E6DCD6', '#D8D8DC', '#8F1722'], 'Commercial property': ['#EFD5D2', '#DAD5D0', '#B91F2D'],
 };
-export default function Visual({ type, src, alt, variant = 0 }) {
-  if (src) return <img src={src} alt={alt} loading="lazy" className="visual" />;
+export default function Visual({ type, src, alt, variant = 0, focus }) {
+  if (src) return <img src={src} alt={alt} loading="lazy" decoding="async" className="visual" style={focus ? { objectPosition: focus } : undefined} />;
   const [sky, ground, accent] = PALETTE[type] || PALETTE.House;
   const built = ['House', 'Apartment', 'Commercial property'].includes(type);
   const x = 250 + variant * 40;

@@ -4,6 +4,15 @@ import { Navbar, Footer, QuickActions } from './components/Layout.jsx';
 import Home from './pages/Home.jsx';
 import Properties from './pages/Properties.jsx';
 import PropertyDetails from './pages/PropertyDetails.jsx';
+import Area from './pages/Area.jsx';
+import { AREA_LIST } from './data/areas.js';
+import useTitle from './useTitle.js';
+
+const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+function NotFound() {
+  useTitle('Page not found | Elora Realty', undefined, { noindex: true });
+  return <div className="wrap page-head"><h1>Page not found</h1><Link className="btn btn-red" to="/">Back to home</Link></div>;
+}
 
 const REVEAL = '.strip, .section-head, .card, .split > *, .services, .why > div, .contact > *, .band-in, .page-top .wrap > .h2, .page-lead, .detail > *, .gallery';
 
@@ -16,7 +25,7 @@ export default function App() {
     return () => clearTimeout(t);
   }, [pathname, hash, key]);
   // Gentle fade-up as sections scroll into view (skipped automatically if the browser can't observe).
-  useLayoutEffect(() => {
+  useIsoLayoutEffect(() => {
     if (!('IntersectionObserver' in window)) return;
     const els = [...document.querySelectorAll(REVEAL)];
     els.forEach((el) => {
@@ -37,11 +46,12 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/properties" element={<Properties />} />
           <Route path="/properties/:id" element={<PropertyDetails />} />
+          {AREA_LIST.map((a) => <Route key={a.slug} path={`/land-in-${a.slug}`} element={<Area slug={a.slug} />} />)}
           {/* Old separate pages now point to the matching section on the home page */}
           <Route path="/about" element={<Navigate to="/#about" replace />} />
           <Route path="/services" element={<Navigate to="/#services" replace />} />
           <Route path="/contact" element={<Navigate to="/#contact" replace />} />
-          <Route path="*" element={<div className="wrap page-head"><h1>Page not found</h1><Link className="btn btn-red" to="/">Back to home</Link></div>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />
