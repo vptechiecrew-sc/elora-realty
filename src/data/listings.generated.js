@@ -15,7 +15,9 @@ export default [
       "Clear title, Road access, Residential area, Good location"
     ],
     "images": [
-      "/images/land-1.jpg"
+      "/images/hero.jpg",
+      "/images/land-1.jpg",
+      "/images/land-2.jpg"
     ],
     "focus": "center"
   },
@@ -33,7 +35,8 @@ export default [
       "Clear title, Road access, Residential area, Good location"
     ],
     "images": [
-      "/images/land-1.jpg"
+      "/images/land-1.jpg",
+      "/images/land-2.jpg"
     ],
     "focus": "center"
   }
