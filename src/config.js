@@ -3,7 +3,7 @@ export const COMPANY = {
   name: 'ELORA REALTY',
   phone: '+91 8220604939',          // placeholder
   whatsapp: '918220604939',          // placeholder: country code + number, digits only
-  email: 'elorarealthy7@gmail.com',
+  email: 'elorarealty7@gmail.com',
   address: 'Second Floor, City Center, Kottar-Parvathipuram Rd, opp. Indian Oil, Nagercoil, Tamil Nadu 629001',
 };
 // Tap-to-call, tap-to-email and open-in-Maps links (used in the Contact section, footer and buttons).

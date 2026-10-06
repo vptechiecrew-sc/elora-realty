@@ -20,6 +20,8 @@ const seo = (site) => ({
         { '@type': 'WebSite', '@id': `${site}/#website`, url: site, name: 'Elora Realty', inLanguage: 'en-IN', publisher: { '@id': `${site}/#business` } },
       ],
     })}</script>` : '';
+    // No domain set yet (VITE_SITE_URL empty): keep every page out of Google until the real domain is configured.
+    if (!site) html = html.replace('content="index,follow,max-image-preview:large"', 'content="noindex,nofollow"');
     return html.replaceAll('__SITE__', site).replace('</head>', `${ld}</head>`);
   },
   generateBundle() {

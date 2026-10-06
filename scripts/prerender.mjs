@@ -26,7 +26,7 @@ for (const url of routes) {
     }
     h = put(h, /<meta property="og:title"[^>]*>/, `<meta property="og:title" content="${esc(seo.title)}" />`);
     h = put(h, /<meta name="twitter:title"[^>]*>/, `<meta name="twitter:title" content="${esc(seo.title)}" />`);
-    h = put(h, /<meta name="robots"[^>]*>/, `<meta name="robots" content="${seo.noindex ? 'noindex,follow' : 'index,follow,max-image-preview:large'}" />`);
+    h = put(h, /<meta name="robots"[^>]*>/, `<meta name="robots" content="${!site ? 'noindex,nofollow' : seo.noindex ? 'noindex,follow' : 'index,follow,max-image-preview:large'}" />`);
     if (site) {
       const full = site + (url === '/' ? '/' : url);
       h = put(h, /<link rel="canonical"[^>]*>/, `<link rel="canonical" href="${full}" />`);

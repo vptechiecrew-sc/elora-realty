@@ -22,7 +22,7 @@ export default function useTitle(title, description, opts = {}) {
     if (!link) { link = document.createElement('link'); link.rel = 'canonical'; document.head.appendChild(link); }
     link.href = url;
     setMeta('property', 'og:title', title); setMeta('property', 'og:url', url); setMeta('name', 'twitter:title', title);
-    setMeta('name', 'robots', opts.noindex ? 'noindex,follow' : ROBOTS);
+    setMeta('name', 'robots', !import.meta.env.VITE_SITE_URL ? 'noindex,nofollow' : opts.noindex ? 'noindex,follow' : ROBOTS);
     if (description) { setMeta('name', 'description', description); setMeta('property', 'og:description', description); setMeta('name', 'twitter:description', description); }
     let s = document.getElementById('page-ld');
     if (ld) { if (!s) { s = document.createElement('script'); s.type = 'application/ld+json'; s.id = 'page-ld'; document.head.appendChild(s); } s.textContent = ld; }
