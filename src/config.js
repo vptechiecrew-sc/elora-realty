@@ -18,4 +18,4 @@ export const inr = (n) => !n ? 'Price on request' : new Intl.NumberFormat('en-IN
 
 // Background photos. Put your files in /public/images/ with these names (or change the names here).
 // If a file is missing, a red gradient is shown instead, so the site never looks broken.
-export const IMAGES = { hero: '/images/hero.jpg', band: '/images/land-band.jpg' };
+export const IMAGES = { hero: '/images/hero.webp', band: '/images/land-band.jpg' };
