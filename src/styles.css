@@ -303,3 +303,13 @@ dd{min-width:0;overflow-wrap:anywhere}dd a{color:var(--red);font-weight:600}dd a
 html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth{scroll-behavior:auto!important}
 .lenis.lenis-stopped{overflow:hidden}
+
+
+/* no progress lines on photo slideshows; brighter, un-tinted photos on phones */
+.hs-dots,.cp-bars,.pd-bars,.card-media.multi::after{display:none!important}
+@media(max-width:768px){
+  .hs-layer{filter:brightness(1.14) saturate(1.08)}
+  .hero-photo{--ov:linear-gradient(180deg,rgba(15,9,9,.2) 0%,rgba(15,9,9,.36) 45%,rgba(15,9,9,.48) 100%)}
+  .band{--ov:linear-gradient(rgba(20,12,12,.36),rgba(20,12,12,.5))}
+  .band.photo::before{filter:brightness(1.12) saturate(.95)}
+}

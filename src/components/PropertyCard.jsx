@@ -56,11 +56,6 @@ function CardSlides({ images, alt, focus }) {
       {images.map((src, i) => (
         <CardPhoto key={src + i} src={src} alt={i === 0 ? alt : ''} focus={focus} layer={n > 1 ? `cp-layer${i === active ? ' on' : ''}` : ''} />
       ))}
-      {n > 1 && (
-        <span className="cp-bars" aria-hidden="true">
-          {images.map((src, i) => <i key={src + i} className={i < active ? 'done' : i === active ? 'cur' : ''} style={{ '--dur': `${dur}ms` }}><b key={i === active ? `a${cycle}` : 'x'} /></i>)}
-        </span>
-      )}
     </span>
   );
 }

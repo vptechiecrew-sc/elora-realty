@@ -86,13 +86,6 @@ export default function PropertyDetails() {
                 </div>
                 <span className={`status status-${p.status.toLowerCase()}`}>{p.status}</span>
                 {count > 1 && <span className="pd-count">{active + 1} / {count}</span>}
-                {count > 1 && (
-                  <>
-                    <div className={`pd-bars${playing ? '' : ' off'}`} aria-hidden="true">
-                      {imgs.map((src, i) => <i key={src + i} className={i < active ? 'done' : i === active ? 'cur' : ''} style={{ '--dur': `${dur}ms` }}><b key={i === active ? `a${cycle}` : 'x'} /></i>)}
-                    </div>
-                  </>
-                )}
                 <button type="button" className="pd-full" onClick={() => setOpen(true)} aria-label="View full screen"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" /></svg><span>Full screen</span></button>
                 {count > 1 && <>
                   <button type="button" className="pd-arrow prev" onClick={() => slideTo(active - 1, true)} aria-label="Previous photo">‹</button>
