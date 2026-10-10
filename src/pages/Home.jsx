@@ -1,25 +1,26 @@
 import { Link } from 'react-router-dom';
 import PropertyCard from '../components/PropertyCard.jsx';
+import HeroSlides from '../components/HeroSlides.jsx';
 import { About, Services, Why, Contact } from './Sections.jsx';
 import { properties } from '../data/properties.js';
 import { AREA_LIST } from '../data/areas.js';
-import { generalLink, IMAGES } from '../config.js';
+import { generalLink, IMAGES, HERO_SLIDES } from '../config.js';
 import useTitle from '../useTitle.js';
 
 export default function Home() {
   useTitle('Elora Realty | Real Estate & Construction in Nagercoil and Chennai', 'Find the best plots, land, houses and commercial property in Nagercoil and Chennai, plus construction services. Enquire with Elora Realty on WhatsApp.');
   return (
     <>
-      <section className="photo hero-photo" style={{ '--img': `url(${IMAGES.hero})` }}>
+      <HeroSlides slides={HERO_SLIDES}>
         <div className="wrap hero-photo-in">
           <h1 className="eyebrow light">Real estate in Nagercoil | Chennai</h1>
-          <p className="hero-title">Find your place.<br />Build your future.</p>
+          <p className="hero-title">Find your place<br />Build your future</p>
           <p className="lead">Explore residential plots, farmland, homes and commercial properties in Nagercoil and Chennai with Elora Realty.</p>
           <div className="row"><Link className="btn btn-red" to="/properties">Explore properties</Link>
             <a className="btn btn-outline-white" href={generalLink} target="_blank" rel="noreferrer">WhatsApp us</a></div>
         </div>
-      </section>
-      
+      </HeroSlides>
+
       {properties.length > 0 && <section className="section"><div className="wrap">
         <div className="section-head"><div><p className="eyebrow">Featured</p><h2>Latest properties</h2></div><Link to="/properties" className="link">View all properties</Link></div>
         <div className="grid">{properties.slice(0, 3).map((p) => <PropertyCard key={p.id} p={p} />)}</div>

@@ -7,6 +7,7 @@ import PropertyDetails from './pages/PropertyDetails.jsx';
 import Area from './pages/Area.jsx';
 import { AREA_LIST } from './data/areas.js';
 import useTitle from './useTitle.js';
+import useSmoothScroll from './useSmoothScroll.js';
 
 const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 function NotFound() {
@@ -18,10 +19,15 @@ const REVEAL = '.strip, .section-head, .card, .split > *, .services, .why > div,
 
 export default function App() {
   const { pathname, hash, key } = useLocation();
+  useSmoothScroll();
   // Go to the top of a new page, or smoothly scroll to a #section (About / Services / Contact).
   useEffect(() => {
-    if (!hash) { window.scrollTo(0, 0); return; }
-    const t = setTimeout(() => document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+    const lenis = window.__lenis;
+    if (!hash) { lenis ? lenis.scrollTo(0, { immediate: true }) : window.scrollTo(0, 0); return; }
+    const t = setTimeout(() => {
+      const el = document.getElementById(hash.slice(1)); if (!el) return;
+      lenis ? lenis.scrollTo(el) : el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 60);
     return () => clearTimeout(t);
   }, [pathname, hash, key]);
   // Gentle fade-up as sections scroll into view (skipped automatically if the browser can't observe).

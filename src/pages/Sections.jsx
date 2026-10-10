@@ -10,8 +10,14 @@ export function About({ page }) {
         <img className="about-logo" src="/images/about-us.png" alt="Elora Realty, since 2026" width="460" height="460" loading="lazy" decoding="async" />
         <div>
           <p className="eyebrow">About us</p>
-          <h2>Local property guidance, explained clearly</h2>
-          <p>Elora Realty helps people in Nagercoil and Chennai explore residential plots, agricultural land, commercial sites, houses and apartments, plus construction, with clear information and a prompt reply to every enquiry.</p>
+          <h2>Real estate and construction in Nagercoil and Chennai</h2>
+          <p>Elora Realty is a real estate company helping you buy residential plots, agricultural land, commercial sites, houses and apartments in Nagercoil and Chennai. We handle construction too, so you can go from finding the land to building on it with one team.</p>
+          <ul className="ticks" style={{ marginBottom: 24 }}>
+            <li>Plots, farmland, houses and commercial property</li>
+            <li>Site visits arranged</li>
+            <li>Construction services</li>
+            
+          </ul>
           <Link className="btn btn-red" to="/properties">Explore properties</Link>
         </div>
       </div>

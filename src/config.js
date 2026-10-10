@@ -19,3 +19,10 @@ export const inr = (n) => !n ? 'Price on request' : new Intl.NumberFormat('en-IN
 // Background photos. Put your files in /public/images/ with these names (or change the names here).
 // If a file is missing, a red gradient is shown instead, so the site never looks broken.
 export const IMAGES = { hero: '/images/hero.webp', band: '/images/land-band.webp' };
+// Hero slideshow: first photo shows 6 s, the rest 5 s. Add drone / aerial shots here (put the files in /public/images/).
+// `pos` = which part stays visible on tall phone screens (x% y%).
+export const HERO_SLIDES = [
+  { src: '/images/hero.webp', pos: '50% 60%' },
+  { src: '/images/land-two.webp', pos: '50% 70%' },
+  { src: '/images/land-1.webp', pos: '50% 70%' },
+];

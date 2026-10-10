@@ -6,6 +6,9 @@ import { properties } from '../data/properties.js';
 import { enquiryLink, inr, TEL } from '../config.js';
 import useTitle from '../useTitle.js';
 
+const FIRST_MS = 6000; // first photo
+const NEXT_MS = 4000;  // every other photo
+
 export default function PropertyDetails() {
   const p = properties.find((x) => x.id === useParams().id);
   const imgs = (p?.images || []).slice(0, 10);
@@ -13,8 +16,46 @@ export default function PropertyDetails() {
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(false);
   const track = useRef(null);
-  const slideTo = (i) => { const el = track.current; if (!el) return; const n = (i + count) % count; el.scrollTo({ left: n * el.clientWidth, behavior: 'smooth' }); setActive(n); };
-  const onScroll = () => { const el = track.current; if (el && el.clientWidth) setActive(Math.round(el.scrollLeft / el.clientWidth)); };
+  const animUntil = useRef(0);
+  const [stopped, setStopped] = useState(false); // visitor took over (touched, swiped, used arrows): autoplay stays off
+  const [hidden, setHidden] = useState(false);
+  const [reduce, setReduce] = useState(false);
+  const [cycle, setCycle] = useState(0);
+  const playing = count > 1 && !stopped && !open && !hidden && !reduce;
+  const dur = active === 0 ? FIRST_MS : NEXT_MS;
+  const slideTo = (i, user = false) => {
+    const el = track.current; if (!el) return;
+    const n = (i + count) % count;
+    animUntil.current = Date.now() + 1000; // ignore scroll events caused by our own slide
+    el.scrollTo({ left: n * el.clientWidth, behavior: 'smooth' });
+    setActive(n);
+    if (user) setStopped(true);
+  };
+  const onScroll = () => {
+    const el = track.current;
+    if (!el || !el.clientWidth || Date.now() < animUntil.current) return;
+    const n = Math.round(el.scrollLeft / el.clientWidth);
+    if (n !== active) { setActive(n); setStopped(true); } // visitor swiped
+  };
+  // auto-advance: first photo 6 s, the rest 4 s
+  useEffect(() => {
+    if (!playing) return undefined;
+    const t = setTimeout(() => slideTo(active + 1), dur);
+    return () => clearTimeout(t);
+  }, [playing, active, cycle, dur]);
+  useEffect(() => {
+    setReduce(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const vis = () => setHidden(document.hidden);
+    document.addEventListener('visibilitychange', vis);
+    return () => document.removeEventListener('visibilitychange', vis);
+  }, []);
+  // after closing the full-screen viewer, put the gallery on the photo that was last viewed
+  useEffect(() => {
+    if (open) return;
+    const el = track.current; if (!el || !el.clientWidth) return;
+    animUntil.current = Date.now() + 300;
+    el.scrollTo({ left: active * el.clientWidth, behavior: 'auto' });
+  }, [open]);
   // full-screen viewer: Esc closes, arrows browse, page behind stays still
   useEffect(() => {
     if (!open) return undefined;
@@ -32,7 +73,8 @@ export default function PropertyDetails() {
       <Link to="/properties" className="link">← All properties</Link>
       <div className="pd" style={{ '--ar': 4 / 3 }}>
         <div className="pd-gal">
-          <div className="pd-frame">
+          <div className="pd-frame"
+            onPointerDown={(e) => { if (e.pointerType !== 'mouse') setStopped(true); }}>
             {count ? (
               <>
                 <div className="pd-track" ref={track} onScroll={onScroll}>
@@ -44,17 +86,24 @@ export default function PropertyDetails() {
                 </div>
                 <span className={`status status-${p.status.toLowerCase()}`}>{p.status}</span>
                 {count > 1 && <span className="pd-count">{active + 1} / {count}</span>}
+                {count > 1 && (
+                  <>
+                    <div className={`pd-bars${playing ? '' : ' off'}`} aria-hidden="true">
+                      {imgs.map((src, i) => <i key={src + i} className={i < active ? 'done' : i === active ? 'cur' : ''} style={{ '--dur': `${dur}ms` }}><b key={i === active ? `a${cycle}` : 'x'} /></i>)}
+                    </div>
+                  </>
+                )}
                 <button type="button" className="pd-full" onClick={() => setOpen(true)} aria-label="View full screen"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" /></svg><span>Full screen</span></button>
                 {count > 1 && <>
-                  <button type="button" className="pd-arrow prev" onClick={() => slideTo(active - 1)} aria-label="Previous photo">‹</button>
-                  <button type="button" className="pd-arrow next" onClick={() => slideTo(active + 1)} aria-label="Next photo">›</button>
+                  <button type="button" className="pd-arrow prev" onClick={() => slideTo(active - 1, true)} aria-label="Previous photo">‹</button>
+                  <button type="button" className="pd-arrow next" onClick={() => slideTo(active + 1, true)} aria-label="Next photo">›</button>
                 </>}
               </>
             ) : <Visual type={p.type} alt={p.title} />}
           </div>
           {count > 1 && (
             <div className="pd-thumbs">
-              {imgs.map((src, i) => <button key={src + i} type="button" className={i === active ? 'on' : ''} onClick={() => slideTo(i)} aria-label={`Show photo ${i + 1}`}><img src={src} alt="" loading="lazy" /></button>)}
+              {imgs.map((src, i) => <button key={src + i} type="button" className={i === active ? 'on' : ''} onClick={() => slideTo(i, true)} aria-label={`Show photo ${i + 1}`}><img src={src} alt="" loading="lazy" /></button>)}
             </div>
           )}
         </div>

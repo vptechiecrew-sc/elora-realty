@@ -240,3 +240,66 @@ dd{min-width:0;overflow-wrap:anywhere}dd a{color:var(--red);font-weight:600}dd a
 /* tall/square photos: very soft fade on the left/right edges so they blend into the card (wide photos stay untouched) */
 .cp:not(.cp-wide){display:flex;justify-content:center}
 .cp:not(.cp-wide) img{width:auto;height:100%;max-width:100%;-webkit-mask-image:linear-gradient(to right,transparent,#000 3px,#000 calc(100% - 3px),transparent);mask-image:linear-gradient(to right,transparent,#000 3px,#000 calc(100% - 3px),transparent)}
+
+/* ===================== PREMIUM UPGRADE ===================== */
+.hero-title{font-weight:800;font-size:clamp(40px,6vw,74px);line-height:1.05;letter-spacing:-.025em}
+.eyebrow{letter-spacing:.18em;font-size:11.5px}
+
+/* hero slideshow: photos cross-fade with a slow zoom */
+.hero-slides::before{display:none}
+.hs-layer{position:absolute;inset:0;z-index:-2;background:var(--bg-img) var(--pos,center)/cover no-repeat;opacity:0;transform:scale(1.02);filter:saturate(1.1);will-change:opacity,transform;transition:opacity 1.3s ease,transform 0s linear 1.3s}
+.hs-layer.on{opacity:1;transform:scale(1.1);transition:opacity 1.3s ease,transform 12s ease-out}
+.hs-dots{position:absolute;z-index:2;left:50%;bottom:34px;transform:translateX(-50%);width:min(1180px,100% - 40px);display:flex;gap:6px}
+.hs-dots button{flex:0 0 54px;height:22px;padding:0;border:0;background:none;cursor:pointer;position:relative}
+.hs-dots button::before,.hs-dots button i{content:'';position:absolute;left:0;right:0;top:9px;height:3px;border-radius:3px}
+.hs-dots button::before{background:rgba(255,255,255,.4)}
+.hs-dots button i{background:#fff;transform:scaleX(0);transform-origin:left}
+.hs-dots button.done i{transform:scaleX(1)}
+.hs-dots button.cur i{animation:hsfill var(--dur) linear forwards}
+@keyframes hsfill{to{transform:scaleX(1)}}
+
+/* hero text: strong dark fade on the left so every line is easy to read */
+.hero-photo{--ov:linear-gradient(90deg,rgba(15,9,9,.84) 0%,rgba(15,9,9,.64) 38%,rgba(15,9,9,.26) 68%,rgba(15,9,9,0) 100%),linear-gradient(0deg,rgba(15,9,9,.5) 0%,rgba(15,9,9,0) 40%)}
+.hero-photo .eyebrow.light{opacity:1;text-shadow:0 1px 3px rgba(0,0,0,.7),0 2px 14px rgba(0,0,0,.6)}
+.hero-photo .hero-title{text-shadow:0 2px 4px rgba(0,0,0,.45),0 4px 30px rgba(0,0,0,.55)}
+.hero-photo .lead{font-size:19px;line-height:1.65;font-weight:600;color:#fff;max-width:560px;text-shadow:0 1px 3px rgba(0,0,0,.75),0 2px 18px rgba(0,0,0,.7)}
+.hero-photo .btn-outline-white{background:rgba(255,255,255,.2);border-color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+@media(max-width:600px){.hero-photo{--ov:linear-gradient(180deg,rgba(15,9,9,.55),rgba(15,9,9,.8))}.hero-photo .lead{font-size:17px}.hs-dots{bottom:22px}.hs-dots button{flex-basis:40px}}
+
+/* nav: calmer, glassier */
+.nav{background:rgba(251,246,236,.82);backdrop-filter:blur(16px) saturate(1.3)}
+.btn-red{background:linear-gradient(135deg,#C4222F,#9E1A26)}
+
+/* property cards: soft shadow, photo zoom on hover */
+.card{border-radius:18px;box-shadow:0 1px 2px rgba(30,18,19,.04),0 12px 30px -22px rgba(30,18,19,.35)}
+.card-media .cp img{transition:transform 1.1s var(--ease)}
+@media(hover:hover){.card:hover .card-media .cp-wide img{transform:scale(1.06)}}
+.status{backdrop-filter:blur(6px);letter-spacing:.04em}
+
+/* property cards with 2+ photos: smooth cross-fade + thin progress bar */
+.cp-layer{opacity:0;transition:opacity 1s ease}
+.cp-layer.on{opacity:1}
+.card-media.multi::after{content:'';position:absolute;left:0;right:0;bottom:0;height:44px;background:linear-gradient(transparent,rgba(0,0,0,.32));pointer-events:none;z-index:2}
+.cp-bars{position:absolute;z-index:3;left:12px;right:12px;bottom:8px;display:flex;gap:4px;height:3px;pointer-events:none}
+.cp-bars i{flex:1;border-radius:3px;position:relative;overflow:hidden;background:rgba(255,255,255,.45)}
+.cp-bars i b{position:absolute;inset:0;background:#fff;transform:scaleX(0);transform-origin:left}
+.cp-bars i.done b{transform:scaleX(1)}
+.cp-bars i.cur b{animation:hsfill var(--dur) linear forwards}
+
+/* property page gallery: progress bar */
+.pd-bars{position:absolute;z-index:3;left:0;right:0;bottom:0;display:flex;gap:3px;height:4px;pointer-events:none}
+.pd-bars i{flex:1;position:relative;overflow:hidden;background:rgba(30,18,19,.22)}
+.pd-bars i b{position:absolute;inset:0;background:var(--red);transform:scaleX(0);transform-origin:left}
+.pd-bars i.done b{transform:scaleX(1)}
+.pd-bars i.cur b{animation:hsfill var(--dur) linear forwards}
+.pd-bars.off i.cur b{animation:none;transform:scaleX(1)}
+.pd-frame{border-radius:24px}
+
+/* sections: a bit more breathing room */
+.section{padding:clamp(64px,9vw,120px) 0}
+.services{border-radius:32px}
+
+/* smooth wheel scrolling (Lenis) */
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
