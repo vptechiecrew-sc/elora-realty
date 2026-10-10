@@ -1,8 +1,8 @@
-// EDIT ME: replace every placeholder with the company's real details.
+// EDIT ME: replace every placeholder with the company's real detail
 export const COMPANY = {
   name: 'ELORA REALTY',
-  phone: '+91 8220604939',          // placeholder
-  whatsapp: '918220604939',          // placeholder: country code + number, digits only
+  phone: '+91 8220604939',          
+  whatsapp: '918220604939',          
   email: 'elorarealty7@gmail.com',
   address: 'Second Floor, City Center, Kottar-Parvathipuram Rd, opp. Indian Oil, Nagercoil, Tamil Nadu 629001',
 };

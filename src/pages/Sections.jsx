@@ -11,7 +11,7 @@ export function About({ page }) {
         <div>
           <p className="eyebrow">About us</p>
           <h2>Local property guidance, explained clearly</h2>
-          <p>Elora Realty helps people in Nagercoil and Chennai explore residential plots, agricultural land, commercial sites, houses and apartments, with clear information and a prompt reply to every enquiry.</p>
+          <p>Elora Realty helps people in Nagercoil and Chennai explore residential plots, agricultural land, commercial sites, houses and apartments, plus construction, with clear information and a prompt reply to every enquiry.</p>
           <Link className="btn btn-red" to="/properties">Explore properties</Link>
         </div>
       </div>
@@ -22,7 +22,7 @@ export function About({ page }) {
 const SERVICES = [
   ['Residential land', 'Plots for homes in Nagercoil and Chennai.'],['Commercial land', 'Sites for shops, offices and business use.'],  ['Agricultural land', 'Farmland and open land enquiries.'],
   
-  ['Commercial properties', 'Built spaces for business.'], ['Property enquiries and assistance', 'Ask us about any listing.'],
+  ['Commercial properties', 'Built spaces for business.'], ['Construction', 'Building work for homes and other buildings.'], ['Property enquiries and assistance', 'Ask us about any listing.'],
 ];
 export function Services({ page }) {
   useTitle(page ? 'Services | Elora Realty' : undefined);

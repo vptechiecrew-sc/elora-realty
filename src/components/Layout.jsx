@@ -103,7 +103,7 @@ export function Footer() {
       <div className="wrap foot-grid">
         <div className="foot-brand">
           <Logo />
-          <p>Land and property enquiries in Nagercoil and Chennai. Serving families and investors since 2026.</p>
+          <p>Land, property and construction enquiries in Nagercoil and Chennai. Serving families and investors since 2026.</p>
           <a className="btn btn-red btn-sm" href={generalLink} target="_blank" rel="noreferrer">Chat on WhatsApp</a>
         </div>
         <nav className="foot-col" aria-label="Footer"><h4>Explore</h4>{links.map(([to, l]) => <Link key={to} to={to}>{l}</Link>)}</nav>

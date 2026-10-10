@@ -1,4 +1,4 @@
-:root{--red:#B91F2D;--red-d:#8F1722;--red-s:#F7DDD8;--ink:#1B0F0F;--ink2:#4A3835;--bg:#FBF6EC;--alt:#F1E6D2;--card:F1E6D2#FFFCF6;--line:#E2D3BA;--dark:#1E1213;--r:14px;--ease:cubic-bezier(.22,.61,.36,1)}
+:root{--red:#B91F2D;--red-d:#8F1722;--red-s:#F7DDD8;--ink:#1B0F0F;--ink2:#4A3835;--bg:#FBF6EC;--alt:#F1E6D2;--card:#FFFCF6;--line:#E2D3BA;--dark:#1E1213;--r:14px;--ease:cubic-bezier(.22,.61,.36,1)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{overflow-x:hidden}
 body{margin:0;font:400 16px/1.7 'Inter Variable','Inter',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
 h1,h2,h3,h4{font-family:'Plus Jakarta Sans Variable','Plus Jakarta Sans','Inter',system-ui,sans-serif;font-weight:800;color:var(--ink);line-height:1.15;margin:0 0 .5em;letter-spacing:-.02em}

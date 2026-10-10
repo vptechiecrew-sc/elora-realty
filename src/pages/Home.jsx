@@ -7,7 +7,7 @@ import { generalLink, IMAGES } from '../config.js';
 import useTitle from '../useTitle.js';
 
 export default function Home() {
-  useTitle('Land & Property for Sale in Nagercoil & Chennai | Elora Realty', 'Elora Realty: residential plots, agricultural land, houses, apartments and commercial property for sale in Nagercoil and Chennai. Enquire on WhatsApp.');
+  useTitle('Elora Realty | Real Estate & Construction in Nagercoil and Chennai', 'Find the best plots, land, houses and commercial property in Nagercoil and Chennai, plus construction services. Enquire with Elora Realty on WhatsApp.');
   return (
     <>
       <section className="photo hero-photo" style={{ '--img': `url(${IMAGES.hero})` }}>

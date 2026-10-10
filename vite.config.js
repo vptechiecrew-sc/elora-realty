@@ -14,7 +14,8 @@ const seo = (site) => ({
       '@graph': [
         { '@type': 'RealEstateAgent', '@id': `${site}/#business`, name: 'Elora Realty', url: site, telephone: COMPANY.phone, email: COMPANY.email,
           logo: `${site}/logo-mark.png`, image: `${site}/og-image.jpg`, foundingDate: '2026', priceRange: '\u20b9\u20b9',
-          description: 'Land and property in Nagercoil and Chennai: residential plots, agricultural land, houses, apartments and commercial properties.',
+          description: 'Land, property and construction in Nagercoil and Chennai: residential plots, agricultural land, houses, apartments, commercial properties and construction services.',
+          hasOfferCatalog: { '@type': 'OfferCatalog', name: 'Elora Realty services', itemListElement: ['Residential land', 'Commercial land', 'Agricultural land', 'Commercial properties', 'Construction'].map((n) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: n } })) },
           areaServed: [{ '@type': 'City', name: 'Nagercoil' }, { '@type': 'City', name: 'Chennai' }],
           address: { '@type': 'PostalAddress', streetAddress: 'Second Floor, City Center, Kottar-Parvathipuram Rd, opp. Indian Oil', addressLocality: 'Nagercoil', addressRegion: 'Tamil Nadu', postalCode: '629001', addressCountry: 'IN' } },
         { '@type': 'WebSite', '@id': `${site}/#website`, url: site, name: 'Elora Realty', inLanguage: 'en-IN', publisher: { '@id': `${site}/#business` } },
