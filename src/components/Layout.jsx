@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { COMPANY, generalLink, TEL, MAIL, MAP } from '../config.js';
+import { COMPANY, generalLink, TEL, MAIL, MAP, INSTAGRAM } from '../config.js';
 import { AREA_LIST } from '../data/areas.js';
 
 export function Logo() {
@@ -92,6 +92,9 @@ export function QuickActions() {
 
 const Mail = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
+);
+const Insta = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg>
 );
 const Pin = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z" /><circle cx="12" cy="10" r="2.5" /></svg>

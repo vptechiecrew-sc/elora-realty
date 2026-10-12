@@ -6,8 +6,8 @@ const PALETTE = {
 };
 export default function Visual({ type, src, alt, variant = 0, focus }) {
   if (src) return <img src={src} alt={alt} loading="lazy" decoding="async" className="visual" style={focus ? { objectPosition: focus } : undefined} />;
-  const [sky, ground, accent] = PALETTE[type] || PALETTE.House;
-  const built = ['House', 'Apartment', 'Commercial property'].includes(type);
+  const built = /house|apartment|villa|flat|building|home/i.test(type || '');
+  const [sky, ground, accent] = PALETTE[type] || (built ? PALETTE.House : PALETTE['Residential land']);
   const x = 250 + variant * 40;
   return (
     <svg className="visual" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label={alt}>

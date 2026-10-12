@@ -9,17 +9,15 @@ export default function HeroSlides({ slides, className = '', children }) {
   const n = slides.length;
   const [active, setActive] = useState(0);
   const [hidden, setHidden] = useState(false);
-  const [reduce, setReduce] = useState(false);
 
   useEffect(() => {
-    setReduce(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     const vis = () => setHidden(document.hidden);
     document.addEventListener('visibilitychange', vis);
     slides.slice(1).forEach((s) => { const im = new Image(); im.src = s.src; }); // preload the rest
     return () => document.removeEventListener('visibilitychange', vis);
   }, []);
 
-  const playing = n > 1 && !hidden && !reduce;
+  const playing = n > 1 && !hidden; // keeps playing even with phone 'reduce motion' on (CSS makes it a gentle fade, no zoom)
   const dur = active === 0 ? FIRST_MS : NEXT_MS;
 
   useEffect(() => {

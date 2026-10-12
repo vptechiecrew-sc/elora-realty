@@ -7,7 +7,7 @@
 // SHEET_CSV_URL can also be a local file path (handy for testing).
 import fs from 'node:fs';
 import { loadEnv } from 'vite';
-import { TYPES, LOCATIONS, STATUSES } from '../src/data/options.js';
+import { LOCATIONS, STATUSES, DEFAULT_CITY } from '../src/data/options.js';
 
 const OUT = 'src/data/listings.generated.js';
 const url = (process.env.SHEET_CSV_URL || loadEnv('production', process.cwd(), '').SHEET_CSV_URL || '').trim();
@@ -48,7 +48,7 @@ if (!rows.length || /<html|<!doctype/i.test(text.slice(0, 200))) fail('The link 
 // ---- match columns by the start of the header name, so "Price (Rs)" or "Show on website?" still work
 const norm = (s) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
 const headers = rows[0].map(norm);
-const FIELDS = ['id', 'title', 'type', 'location', 'price', 'area', 'unit', 'status', 'description', 'features', 'images', 'focus', 'show'];
+const FIELDS = ['id', 'title', 'type', 'location', 'price', 'area', 'unit', 'status', 'description', 'features', 'images', 'focus', 'bank', 'show'];
 const col = {};
 for (const f of FIELDS) { const i = headers.findIndex((h) => h.startsWith(f)); if (i >= 0) col[f] = i; }
 for (const f of ['title', 'type', 'location', 'price']) if (col[f] === undefined) fail(`The sheet has no "${f[0].toUpperCase() + f.slice(1)}" column. The first row must be the column names (see docs/listings-template.csv).`);
@@ -63,6 +63,7 @@ const money = (v) => {
 };
 const slug = (s) => s.toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 const used = new Set();
+const seenTypes = new Map();
 const list = [];
 
 rows.slice(1).forEach((r, idx) => {
@@ -71,14 +72,24 @@ rows.slice(1).forEach((r, idx) => {
   if (/^(no|n|false|hide|hidden|0)$/i.test(get('show'))) return;
   const title = get('title');
   if (!title) { warnings.push(`Row ${n}: no Title, skipped`); return; }
-  const type = pick(TYPES, get('type'));
-  if (!type) { warnings.push(`Row ${n} (${title}): Type "${get('type')}" is not one of: ${TYPES.join(', ')}. Skipped`); return; }
-  const location = pick(LOCATIONS, get('location'));
-  if (!location) { warnings.push(`Row ${n} (${title}): Location "${get('location')}" is not one of: ${LOCATIONS.join(', ')}. Skipped`); return; }
-  const price = money(get('price'));
-  if (!Number.isFinite(price) || price <= 0) { warnings.push(`Row ${n} (${title}): Price "${get('price')}" is not a number. Skipped`); return; }
-  let status = pick(STATUSES, get('status'));
-  if (!status) { if (get('status')) warnings.push(`Row ${n} (${title}): Status "${get('status')}" is not one of: ${STATUSES.join(', ')}. Using Available`); status = 'Available'; }
+  // Type is free text: write any category in the sheet (e.g. "Farm house", "Villa plot") and it just works.
+  // Same words in different capitals ("Budget house" / "Budget House") are merged into the first spelling used.
+  const rawType = get('type').replace(/\s+/g, ' ');
+  const typeKey = rawType.toLowerCase();
+  if (!seenTypes.has(typeKey)) seenTypes.set(typeKey, rawType ? rawType[0].toUpperCase() + rawType.slice(1) : 'Property');
+  const type = seenTypes.get(typeKey);
+  // Location is free text too: a city (Nagercoil / Chennai) or any place ("NGO junction"). City pages use the city.
+  const rawPlace = get('location').replace(/\s+/g, ' ');
+  const city = LOCATIONS.find((c) => new RegExp(`\\b${c}\\b`, 'i').test(rawPlace));
+  const location = city || DEFAULT_CITY;
+  const place = city && rawPlace.toLowerCase() === city.toLowerCase() ? '' : rawPlace;
+  // Price: "12.5 lakh/cent" -> 1250000 per cent. Empty price is allowed (shows "Price on request").
+  const rawPrice = get('price');
+  const [priceMain, ...priceRest] = rawPrice.split('/');
+  const priceUnit = priceRest.join('/').trim().replace(/^(1\s*)/, '');
+  let price = rawPrice ? money(priceMain) : 0;
+  if (!Number.isFinite(price) || price < 0) { warnings.push(`Row ${n} (${title}): Price "${rawPrice}" is not a number. Shown as Price on request`); price = 0; }
+  const status = pick(STATUSES, get('status')) || get('status') || 'Available'; // Available / Reserved / Sold, or any word you type
 
   let id = slug(get('id') || `${title} ${location}`) || `listing-${n}`;
   for (let k = 2; used.has(id); k++) id = `${slug(get('id') || `${title} ${location}`)}-${k}`;
@@ -87,14 +98,16 @@ rows.slice(1).forEach((r, idx) => {
   const images = get('images').split(/[\s,;]+/).filter(Boolean).flatMap((img) => {
     if (/drive\.google\.com|docs\.google\.com/i.test(img)) { warnings.push(`Row ${n} (${title}): Google Drive links do not work as website photos. Upload the photo to public/images and write its file name. Photo ignored`); return []; }
     return /^(https?:)?\/\//i.test(img) || img.startsWith('/') ? [img] : [`/images/${img}`];
-  }).slice(0, 3);
+  }).slice(0, 6);
 
-  const area = parseFloat(get('area').replace(/,/g, ''));
+  const areaRaw = get('area').replace(/,/g, '');
+  const area = areaRaw === '' ? 0 : (/^\d+(\.\d+)?$/.test(areaRaw) ? parseFloat(areaRaw) : areaRaw); // "2 to 10" stays as text
+  const bankLoan = !/^(no|n|false|0)$/i.test(get('bank')); // Bank loan column: empty = available
   list.push({
-    id, title, type, location, price,
-    area: Number.isFinite(area) ? area : 0, unit: get('unit') || 'cents', status,
+    id, title, type, location, ...(place ? { place } : {}), price, ...(priceUnit ? { priceUnit } : {}),
+    area, unit: get('unit') || 'cents', status, bankLoan,
     description: get('description') || `${title} in ${location}. Contact Elora Realty for details.`,
-    features: get('features').split(/[;|\n]+/).map((x) => x.trim()).filter(Boolean),
+    features: get('features').split(/[;|,\n]+/).map((x) => x.trim()).filter(Boolean),
     ...(images.length ? { images } : {}), ...(get('focus') ? { focus: get('focus') } : {}),
   });
 });

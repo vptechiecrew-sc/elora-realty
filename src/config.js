@@ -7,6 +7,7 @@ export const COMPANY = {
   address: 'Second Floor, City Center, Kottar-Parvathipuram Rd, opp. Indian Oil, Nagercoil, Tamil Nadu 629001',
 };
 // Tap-to-call, tap-to-email and open-in-Maps links (used in the Contact section, footer and buttons).
+export const INSTAGRAM = 'https://www.instagram.com/elora.realty?exln=cXRrZTh4YjB3eGoz';
 export const TEL = `tel:${COMPANY.phone.replace(/[^+\d]/g, '')}`;
 export const MAIL = `mailto:${COMPANY.email}?subject=${encodeURIComponent('Property enquiry - Elora Realty')}`;
 export const MAP = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(COMPANY.address)}`;
@@ -15,6 +16,15 @@ export const enquiryLink = (title) =>
   waLink(`Hello Elora Realty, I am interested in the property ${title}. Could you please share more details?`);
 export const generalLink = waLink('Hello Elora Realty, I would like to enquire about properties in Nagercoil and Chennai.');
 export const inr = (n) => !n ? 'Price on request' : new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(n);
+// "12.5 lakh / cent", "1.2 crore", "Price on request"
+export const priceText = (p) => {
+  if (!p.price) return 'Price on request';
+  const f = (v) => String(Math.round(v * 100) / 100);
+  const base = p.price >= 1e7 ? `\u20b9${f(p.price / 1e7)} crore` : p.price >= 1e5 ? `\u20b9${f(p.price / 1e5)} lakh` : inr(p.price);
+  return p.priceUnit ? `${base} / ${p.priceUnit}` : base;
+};
+export const areaText = (p) => (p.area ? `${p.area} ${p.unit}` : '');
+export const hasLoan = (p) => p.bankLoan !== false;
 
 // Background photos. Put your files in /public/images/ with these names (or change the names here).
 // If a file is missing, a red gradient is shown instead, so the site never looks broken.

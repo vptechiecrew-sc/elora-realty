@@ -2,7 +2,7 @@
 // Add `images: ['/images/x.webp']` per property once real photos exist; until then an illustration is shown.
 // Optional `focus: '50% 75%'` sets which part of a tall/odd-shaped photo stays visible when it is cropped (x% y%).
 import generated from './listings.generated.js';
-export { TYPES, LOCATIONS } from './options.js';
+export { LOCATIONS } from './options.js';
 
 const listings = [
   { id: 'nagercoil-layout-01', title: 'Plots in a Developed Layout', type: 'Residential land', location: 'Nagercoil', price: 0, area: 0, unit: 'cents', status: 'Available',

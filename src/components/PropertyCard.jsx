@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Visual from './Visual.jsx';
-import { enquiryLink, inr } from '../config.js';
+import { enquiryLink, priceText, hasLoan } from '../config.js';
 
 const FIRST_MS = 5000; // first photo
 const NEXT_MS = 4000;  // every other photo
@@ -26,14 +26,12 @@ function CardSlides({ images, alt, focus }) {
   const [active, setActive] = useState(0);
   const [visible, setVisible] = useState(false);
   const [hidden, setHidden] = useState(false);
-  const [reduce, setReduce] = useState(false);
   const [lag, setLag] = useState(0); // small random delay so neighbouring cards don't change in sync
   const [cycle, setCycle] = useState(0);
-  const playing = n > 1 && visible && !hidden && !reduce;
+  const playing = n > 1 && visible && !hidden;
   const dur = active === 0 ? FIRST_MS + lag : NEXT_MS;
 
   useEffect(() => {
-    setReduce(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     setLag(Math.round(Math.random() * 1200));
     const vis = () => setHidden(document.hidden);
     document.addEventListener('visibilitychange', vis);
@@ -71,10 +69,11 @@ export default function PropertyCard({ p }) {
         {imgs.length > 1 && <span className="card-photos"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><circle cx="9" cy="11" r="2" /><path d="M21 16l-5-5-8 8" /></svg>{p.images.length}</span>}
       </Link>
       <div className="card-body">
-        <p className="eyebrow">{p.type} · {p.location}</p>
+        <p className="eyebrow">{p.type} · {p.place || p.location}</p>
         <h3>{p.title}</h3>
-        <p className="price">{inr(p.price)}</p>
-        <p className="meta">{p.area ? `${p.area} ${p.unit}` : "Area on request"}</p>
+        <p className="price">{priceText(p)}</p>
+        <p className="meta area">{p.area ? `${p.area} ${p.unit}` : "Area on request"}</p>
+        {hasLoan(p) && <p className="loan"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>Bank loan available</p>}
         <div className="card-actions">
           <Link className="btn btn-red btn-sm" to={`/properties/${p.id}`}>View details</Link>
           <a className="btn btn-line btn-sm" href={enquiryLink(p.title)} target="_blank" rel="noreferrer">Enquire</a>

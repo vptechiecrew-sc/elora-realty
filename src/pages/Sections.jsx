@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import useTitle from '../useTitle.js';
-import { COMPANY, generalLink, TEL, MAIL, MAP } from '../config.js';
+import { COMPANY, generalLink, TEL, MAIL, MAP, INSTAGRAM } from '../config.js';
 
 export function About({ page }) {
   useTitle(page ? 'About Elora Realty | Real Estate in Nagercoil & Chennai' : undefined, page ? 'Elora Realty helps people explore land and property in Nagercoil and Chennai.' : undefined);
@@ -64,7 +64,7 @@ export function Contact({ page }) {
       <div className="wrap contact">
         <div><p className="eyebrow">Contact</p><h2>Enquire about a property</h2>
           <p>The quickest way to reach us is WhatsApp. We will share details and arrange a visit.</p>
-          <dl><dt>Phone</dt><dd><a href={TEL}>{COMPANY.phone}</a></dd><dt>Email</dt><dd><a href={MAIL}>{COMPANY.email}</a></dd><dt>Office</dt><dd><a href={MAP} target="_blank" rel="noreferrer">{COMPANY.address}</a></dd></dl></div>
+          <dl><dt>Phone</dt><dd><a href={TEL}>{COMPANY.phone}</a></dd><dt>Email</dt><dd><a href={MAIL}>{COMPANY.email}</a></dd><dt>Instagram</dt><dd><a href={INSTAGRAM} target="_blank" rel="noreferrer">@elora.realty</a></dd><dt>Office</dt><dd><a href={MAP} target="_blank" rel="noreferrer">{COMPANY.address}</a></dd></dl></div>
         <div className="contact-actions">
           <a className="btn btn-red btn-block" href={generalLink} target="_blank" rel="noreferrer">Chat on WhatsApp</a>
           <a className="btn btn-line btn-block" href={TEL}>Call us</a>
