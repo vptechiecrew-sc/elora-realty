@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { Link, useParams } from 'react-router-dom';
 import Visual from '../components/Visual.jsx';
 import { properties } from '../data/properties.js';
-import { enquiryLink, priceText, hasLoan, TEL } from '../config.js';
+import { enquiryLink, priceText, hasLoan, areaText, TEL } from '../config.js';
 import useTitle from '../useTitle.js';
 
 const FIRST_MS = 6000; // first photo
@@ -64,7 +64,7 @@ export default function PropertyDetails() {
     const prev = document.body.style.overflow; document.body.style.overflow = 'hidden';
     return () => { window.removeEventListener('keydown', key); document.body.style.overflow = prev; };
   }, [open, count]);
-  useTitle(p ? `${p.title}, ${p.location} | Elora Realty` : 'Property not found | Elora Realty', p ? `${p.title} in ${p.location}. ${p.area ? `${p.area} ${p.unit}, ` : ""}${priceText(p)}.${hasLoan(p) ? ' Bank loan available.' : ''} Enquire with Elora Realty on WhatsApp.` : undefined,
+  useTitle(p ? `${p.title}, ${p.location} | Elora Realty` : 'Property not found | Elora Realty', p ? `${p.title} in ${p.location}. ${areaText(p) ? `${areaText(p)}, ` : ""}${priceText(p)}.${hasLoan(p) ? ' Bank loan available.' : ''} Enquire with Elora Realty on WhatsApp.` : undefined,
     p ? { noindex: !!p.sample, ld: { '@context': 'https://schema.org', '@type': 'RealEstateListing', name: p.title, description: p.description, url: `${import.meta.env.VITE_SITE_URL || ''}/properties/${p.id}`,
       ...(p.images?.[0] ? { image: `${import.meta.env.VITE_SITE_URL || ''}${p.images[0]}` } : {}), ...(p.price ? { offers: { '@type': 'Offer', price: p.price, priceCurrency: 'INR' } } : {}) } } : { noindex: true });
   if (!p) return <div className="wrap page-top section"><h1>Property not found</h1><Link className="btn btn-red" to="/properties">Back to properties</Link></div>;
@@ -105,7 +105,7 @@ export default function PropertyDetails() {
           <p className="price big">{priceText(p)}</p>
           {hasLoan(p) && <p className="loan big"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>Bank loan available</p>}
           <dl className="pd-facts">
-            <div><dt>Area</dt><dd>{p.area ? `${p.area} ${p.unit}` : "On request"}</dd></div>
+            <div><dt>Area</dt><dd>{areaText(p) || "On request"}</dd></div>
             <div><dt>Category</dt><dd>{p.type}</dd></div>
             <div><dt>Location</dt><dd>{p.place ? `${p.place}, ` : ''}{p.location}, Tamil Nadu</dd></div>
             {hasLoan(p) && <div><dt>Finance</dt><dd>Bank loan available</dd></div>}

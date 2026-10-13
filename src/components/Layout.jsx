@@ -115,6 +115,7 @@ export function Footer() {
           <a className="fc" href={TEL}><Phone /><span>{COMPANY.phone}</span></a>
           <a className="fc" href={MAIL}><Mail /><span>{COMPANY.email}</span></a>
           <a className="fc" href={MAP} target="_blank" rel="noreferrer"><Pin /><span>{COMPANY.address}</span></a>
+          <a className="fc" href={INSTAGRAM} target="_blank" rel="noreferrer" aria-label="Elora Realty on Instagram"><Insta /><span>@elora.realty</span></a>
         </div>
       </div>
       <div className="wrap foot-base"><span>© {new Date().getFullYear()} {COMPANY.name}. All rights reserved.</span><span>Since 2026 · Nagercoil | Chennai</span></div>

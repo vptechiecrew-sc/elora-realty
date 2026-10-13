@@ -7,7 +7,7 @@ export const COMPANY = {
   address: 'Second Floor, City Center, Kottar-Parvathipuram Rd, opp. Indian Oil, Nagercoil, Tamil Nadu 629001',
 };
 // Tap-to-call, tap-to-email and open-in-Maps links (used in the Contact section, footer and buttons).
-export const INSTAGRAM = 'https://www.instagram.com/elora.realty?exln=cXRrZTh4YjB3eGoz';
+export const INSTAGRAM = 'https://www.instagram.com/elora.realty/';
 export const TEL = `tel:${COMPANY.phone.replace(/[^+\d]/g, '')}`;
 export const MAIL = `mailto:${COMPANY.email}?subject=${encodeURIComponent('Property enquiry - Elora Realty')}`;
 export const MAP = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(COMPANY.address)}`;
@@ -23,7 +23,12 @@ export const priceText = (p) => {
   const base = p.price >= 1e7 ? `\u20b9${f(p.price / 1e7)} crore` : p.price >= 1e5 ? `\u20b9${f(p.price / 1e5)} lakh` : inr(p.price);
   return p.priceUnit ? `${base} / ${p.priceUnit}` : base;
 };
-export const areaText = (p) => (p.area ? `${p.area} ${p.unit}` : '');
+// Number -> "5 cents". Text that already has a unit/words ("2.5 acre, can be separated") is shown exactly as typed; "2 to 10" gets the unit added.
+export const areaText = (p) => {
+  if (!p.area) return '';
+  const s = String(p.area).trim();
+  return /[a-z]/i.test(s.replace(/\bto\b/gi, '')) ? s : `${s} ${p.unit}`;
+};
 export const hasLoan = (p) => p.bankLoan !== false;
 
 // Background photos. Put your files in /public/images/ with these names (or change the names here).

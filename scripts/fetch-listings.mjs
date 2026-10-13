@@ -100,8 +100,8 @@ rows.slice(1).forEach((r, idx) => {
     return /^(https?:)?\/\//i.test(img) || img.startsWith('/') ? [img] : [`/images/${img}`];
   }).slice(0, 6);
 
-  const areaRaw = get('area').replace(/,/g, '');
-  const area = areaRaw === '' ? 0 : (/^\d+(\.\d+)?$/.test(areaRaw) ? parseFloat(areaRaw) : areaRaw); // "2 to 10" stays as text
+  const areaRaw = get('area').trim();
+  const area = areaRaw === '' ? 0 : (/^\d+(\.\d+)?$/.test(areaRaw.replace(/,/g, '')) ? parseFloat(areaRaw.replace(/,/g, '')) : areaRaw); // "2 to 10" stays as text
   const bankLoan = !/^(no|n|false|0)$/i.test(get('bank')); // Bank loan column: empty = available
   list.push({
     id, title, type, location, ...(place ? { place } : {}), price, ...(priceUnit ? { priceUnit } : {}),

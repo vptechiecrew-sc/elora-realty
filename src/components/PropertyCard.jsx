@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Visual from './Visual.jsx';
-import { enquiryLink, priceText, hasLoan } from '../config.js';
+import { enquiryLink, priceText, hasLoan, areaText } from '../config.js';
 
 const FIRST_MS = 5000; // first photo
 const NEXT_MS = 4000;  // every other photo
@@ -72,7 +72,7 @@ export default function PropertyCard({ p }) {
         <p className="eyebrow">{p.type} · {p.place || p.location}</p>
         <h3>{p.title}</h3>
         <p className="price">{priceText(p)}</p>
-        <p className="meta area">{p.area ? `${p.area} ${p.unit}` : "Area on request"}</p>
+        <p className="meta area">{areaText(p) || "Area on request"}</p>
         {hasLoan(p) && <p className="loan"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>Bank loan available</p>}
         <div className="card-actions">
           <Link className="btn btn-red btn-sm" to={`/properties/${p.id}`}>View details</Link>

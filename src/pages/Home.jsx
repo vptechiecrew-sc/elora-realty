@@ -23,7 +23,7 @@ export default function Home() {
 
       {properties.length > 0 && <section className="section"><div className="wrap">
         <div className="section-head"><div><p className="eyebrow">Featured</p><h2>Latest properties</h2></div><Link to="/properties" className="link">View all properties</Link></div>
-        <div className="grid">{properties.slice(0, 3).map((p) => <PropertyCard key={p.id} p={p} />)}</div>
+        <div className="grid">{properties.slice(0, 6).map((p) => <PropertyCard key={p.id} p={p} />)}</div>
       </div></section>}
       {AREA_LIST.length > 1 && <section className="section alt"><div className="wrap">
         <p className="eyebrow">Where we work</p><h2>Land and property by city</h2>

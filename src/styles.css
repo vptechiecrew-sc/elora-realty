@@ -323,3 +323,5 @@ html.lenis,html.lenis body{height:auto}
 .loan{display:inline-flex;align-items:center;gap:6px;margin:-6px 0 14px;font-size:13px;font-weight:700;color:#1E7A46;background:#E8F5EC;padding:4px 12px;border-radius:99px}.loan.big{font-size:14px;margin:4px 0 16px;padding:6px 14px}
 .meta.area{display:inline-block;font-size:15px;font-weight:800;color:var(--ink);background:#F6EBDD;padding:4px 12px;border-radius:99px;margin-bottom:12px}
 .pd-facts>div:first-child{border-color:var(--red);background:#FFF4F2}.pd-facts>div:first-child dd{font-size:20px;font-weight:800}
+
+.foot-col a.fc svg circle[fill]{fill:var(--red)}
