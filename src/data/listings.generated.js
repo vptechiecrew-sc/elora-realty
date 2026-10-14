@@ -19,7 +19,7 @@ export default [
       "Near Parvathipuram"
     ],
     "images": [
-      "/images/land-31.webp"
+      "/images/housedelete2.webp"
     ],
     "focus": "center"
   },
@@ -39,6 +39,9 @@ export default [
       "Budget house",
       "1 cent",
       "Near Apta Market"
+    ],
+    "images": [
+      "/images/housedelete1.webp"
     ],
     "focus": "center"
   },
