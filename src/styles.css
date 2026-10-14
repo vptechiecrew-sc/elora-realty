@@ -325,3 +325,19 @@ html.lenis,html.lenis body{height:auto}
 .pd-facts>div:first-child{border-color:var(--red);background:#FFF4F2}.pd-facts>div:first-child dd{font-size:20px;font-weight:800}
 
 .foot-col a.fc svg circle[fill]{fill:var(--red)}
+
+/* hero photos: no zoom (the old slow zoom cropped the photo more and more).
+   Phones: the photo fills a full-width 4:3 block at the top (the photos are 4:3, so the WHOLE photo shows, nothing cut,
+   no bars, no blur, no dark overlay) and the hero text sits below it. */
+.hs-layer,.hs-layer.on{transform:none;transition:opacity 1.3s ease}
+@media(max-width:600px){
+  .hero-slides{display:block;min-height:0;background:var(--bg);padding:calc(75% + 8px) 0 34px}
+  .hero-slides::after{display:none}
+  .hs-layer{inset:0 0 auto 0;height:auto;aspect-ratio:4/3;background-size:cover;filter:none;border-radius:0}
+  .hero-slides .eyebrow.light{color:var(--red);text-shadow:none;margin-bottom:8px}
+  .hero-slides .hero-title{color:var(--ink);text-shadow:none;font-size:38px;margin:0 0 12px}
+  .hero-slides .lead{color:var(--ink);opacity:.82;text-shadow:none;font-size:16px;font-weight:500;line-height:1.6;margin-bottom:20px}
+  .hero-slides .btn-outline-white{background:transparent;border-color:var(--ink);color:var(--ink);text-shadow:none}
+}
+/* home page: phones list every property, bigger screens show the first 6 */
+@media(min-width:601px){.home-grid .card:nth-child(n+7){display:none}}

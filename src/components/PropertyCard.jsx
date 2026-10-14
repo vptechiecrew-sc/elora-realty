@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import Visual from './Visual.jsx';
 import { enquiryLink, priceText, hasLoan, areaText } from '../config.js';
 
-const FIRST_MS = 5000; // first photo
-const NEXT_MS = 4000;  // every other photo
+const FIRST_MS = 3000; // first photo
+const NEXT_MS = 3000;  // every other photo
 
 // Wide photos fill the card. Tall or square photos are shown in full (nothing cropped) on the card colour.
 function CardPhoto({ src, alt, focus, layer = '' }) {

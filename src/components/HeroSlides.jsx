@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 // Full-width hero with photos that cross-fade by themselves (never pauses).
-// First photo stays FIRST_MS, the others NEXT_MS.
-const FIRST_MS = 6000;
-const NEXT_MS = 5000;
+// Every photo stays 3 s.
+const FIRST_MS = 3000;
+const NEXT_MS = 3000;
 
 export default function HeroSlides({ slides, className = '', children }) {
   const n = slides.length;
